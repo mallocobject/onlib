@@ -10,25 +10,49 @@ Node *createNode(int data)
     return node;
 }
 
-void deleteNode(Node **head, int data)
+Node *searchNode(Node *head, int data)
 {
-    if (*head == NULL)
-        return;
-    Node *dummy_head = createNode(0);
-    dummy_head->next = *head;
-    Node *cur_node = dummy_head->next;
-    Node *prev_node = dummy_head;
+    Node *cur_node = head;
     while (cur_node != NULL)
     {
         if (cur_node->data == data)
         {
-            prev_node->next = cur_node->next;
-            free(cur_node);
-            break;
+            return cur_node;
         }
-        prev_node = cur_node;
         cur_node = cur_node->next;
     }
+    return NULL;
+}
+
+void deleteNode(Node **head, int data)
+{
+    if (*head == NULL)
+        return;
+
+    Node *dummy_head = createNode(0);
+
+    dummy_head->next = *head;
+    Node *temp = searchNode(*head, data);
+
+    if (temp != NULL)
+    {
+        if (temp == *head)
+        {
+            dummy_head->next = (*head)->next;
+            free(temp);
+        }
+        else
+        {
+            Node *cur_node = dummy_head;
+            while (cur_node->next != temp)
+            {
+                cur_node = cur_node->next;
+            }
+            cur_node->next = temp->next;
+            free(temp);
+        }
+    }
+
     *head = dummy_head->next;
     free(dummy_head);
 }

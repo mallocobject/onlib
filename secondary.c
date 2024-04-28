@@ -7,8 +7,12 @@
 #include "node_list.h"
 #include <wchar.h>
 #include <locale.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 
 extern Menu *menu;
+Node *node = NULL;
 
 void initialize()
 {
@@ -21,6 +25,7 @@ void initialize()
 void terminate()
 {
     free_menu(menu);
+    deleteAllNodes(&node);
     terminal_showCursor();
     terminal_reset();
 }
@@ -28,11 +33,15 @@ void terminate()
 void setBaseMenu()
 {
     setTitle(menu, "Main Menu");
-    addItem(menu, new_menu_item("Item 1", func1));
-    Menu *m2 = addItem(menu, new_menu_item("Item 2", NULL));
-    addItem(m2, new_menu_item("Item 2.1", func2));
+    Menu *m0 = addItem(menu, new_menu_item("basic function", NULL));
+    addItem(m0, new_menu_item("add", func_01));
+    addItem(m0, new_menu_item("delete", func_02));
+    addItem(m0, new_menu_item("modify", func_03));
+    addItem(m0, new_menu_item("search", func_04));
+    addItem(m0, new_menu_item("print", func_05));
 
-    addItem(menu, new_menu_item("Item 3", func3));
+    Menu *m1 = addItem(menu, new_menu_item("game function", NULL));
+    addItem(m1, new_menu_item("tetris", func_11));
 }
 
 void mainLoop()
@@ -88,27 +97,72 @@ void block()
         ;
 }
 
-void func1()
+void func_01()
 {
-    printf("\nFunction 1 called");
+    int data;
+    printf("\nEnter data: ");
+    scanf("%d", &data);
+    getchar();
+    appendNode(&node, data);
     block();
 }
 
-void func2()
+void func_02()
 {
-    printf("\nFunction 2 called");
+    int data;
+    printf("\nEnter data: ");
+    scanf("%d", &data);
+    getchar();
+    deleteNode(&node, data);
     block();
 }
 
-void func3()
+void func_03()
 {
-    Node *node = NULL;
-    appendNode(&node, 1);
-    appendNode(&node, 2);
-    appendNode(&node, 3);
-    appendNode(&node, 4);
-    appendNode(&node, 5);
+    int data;
+    printf("\nEnter data: ");
+    scanf("%d", &data);
+    getchar();
+    Node *temp = searchNode(node, data);
+    if (temp != NULL)
+    {
+        printf("\nEnter new data: ");
+        scanf("%d", &temp->data);
+        getchar();
+    }
+    else
+        printf("\nData not found.");
+    block();
+}
+
+void func_04()
+{
+    int data;
+    printf("\nEnter data: ");
+    scanf("%d", &data);
+    getchar();
+    Node *temp = searchNode(node, data);
+    if (temp != NULL)
+        printf("\nData found: %d", temp->data);
+    else
+        printf("\nData not found.");
+    block();
+}
+
+void func_05()
+{
     printList(node);
-    deleteAllNodes(&node);
     block();
+}
+
+void func_11()
+{
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    wchar_t wcwd[1024];
+    mbstowcs(wcwd, cwd, sizeof(wcwd) / sizeof(wchar_t));
+    wchar_t wpath[] = L"/plus_tetris.exe";
+    wcscat(wcwd, wpath);
+    _wsystem(wcwd);
+    terminal_hideCursor();
 }

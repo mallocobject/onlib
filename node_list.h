@@ -8,6 +8,8 @@ typedef struct Node
 
 Node *createNode(int data);
 
+Node *searchNode(Node *head, int data);
+
 void deleteNode(Node **head, int data);
 
 void deleteAllNodes(Node **head);
