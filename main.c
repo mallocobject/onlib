@@ -1,14 +1,14 @@
-#include "secondary.h"
-#include "menu.h"
+#include "logic.h"
+#include "shell.h"
 #include <stdio.h>
 
-Menu *menu; // only one anywhere
+Shell *shell; // only one anywhere
 
 int main()
 {
     initialize();
 
-    setBaseMenu();
+    setBaseShell();
 
     mainLoop();
 

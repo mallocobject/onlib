@@ -4,7 +4,7 @@ void initialize();
 
 void terminate();
 
-void setBaseMenu();
+void setBaseShell();
 
 void mainLoop();
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdbool.h>
-#include <wchar.h>
 
 typedef enum
 {
@@ -43,10 +42,6 @@ void terminal_showCursor();
 void terminal_clearScreen();
 
 void terminal_reset();
-
-void terminal_printUnicode(const wchar_t lc);
-
-void terminal_printUnicodeString(const wchar_t *str);
 
 void terminal_printChar(const char c);
 

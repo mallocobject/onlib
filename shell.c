@@ -1,60 +1,67 @@
-#include "menu.h"
+#include "shell.h"
 #include <stdlib.h>
 #include "m_queue.h"
 #include "terminal.h"
 #include <stdio.h>
 
-void setTitle(Menu *self, char *title)
+void setTitle(Shell *self, char *title)
 {
-    self->title = title;
+    if (self->title != NULL)
+    {
+        free(self->title);
+        self->title = NULL;
+    }
+    self->title = malloc(strlen(title) + 1);
+
+    strcpy(self->title, title);
 }
 
-void setFunction(Menu *self, void *function)
+void setFunction(Shell *self, void *function)
 {
     self->function = function;
 }
 
-void setSelected(Menu *self, int selected)
+void setSelected(Shell *self, int selected)
 {
     self->selected = selected;
 }
 
-int getSelected(Menu *self)
+int getSelected(Shell *self)
 {
     return self->selected;
 }
 
-void setCount(Menu *self, int count)
+void setCount(Shell *self, int count)
 {
     self->count = count;
 }
 
-int getCount(Menu *self)
+int getCount(Shell *self)
 {
     return self->count;
 }
 
-void setParent(Menu *self, Menu *parent)
+void setParent(Shell *self, Shell *parent)
 {
     self->parent = parent;
 }
 
-Menu *getParent(Menu *self)
+Shell *getParent(Shell *self)
 {
     return self->parent;
 }
 
-Menu *addItem(Menu *self, Menu *item)
+Shell *addOption(Shell *self, Shell *item)
 {
     int index = getCount(self);
-    self->items = realloc(self->items, (index + 1) * sizeof(Menu));
+    self->items = realloc(self->items, (index + 1) * sizeof(Shell));
     self->items[index] = item;
     setParent(item, self);
     setCount(self, index + 1);
     return item;
 }
 
-void show(Menu *self)
+void show(Shell *self)
 {
     if (self == NULL)
         return;
@@ -82,7 +89,7 @@ void show(Menu *self)
     }
 }
 
-void up(Menu *self)
+void up(Shell *self)
 {
     setSelected(self, getSelected(self) - 1);
     if (getSelected(self) < 0)
@@ -90,7 +97,7 @@ void up(Menu *self)
     show(self);
 }
 
-void down(Menu *self)
+void down(Shell *self)
 {
     setSelected(self, getSelected(self) + 1);
     if (getSelected(self) >= getCount(self))
@@ -98,11 +105,11 @@ void down(Menu *self)
     show(self);
 }
 
-Menu *enter(Menu *self)
+Shell *enter(Shell *self)
 {
-    Menu *item = self->items[getSelected(self)];
+    Shell *item = self->items[getSelected(self)];
     if (item->function != NULL)
-        ((void (*)(Menu *))item->function)(item);
+        ((void (*)(Shell *))item->function)(item);
     else
     {
         show(item);
@@ -111,9 +118,9 @@ Menu *enter(Menu *self)
     return self;
 }
 
-Menu *back(Menu *self)
+Shell *back(Shell *self)
 {
-    Menu *parent = getParent(self);
+    Shell *parent = getParent(self);
     if (parent != NULL)
     {
         show(parent);
@@ -122,39 +129,43 @@ Menu *back(Menu *self)
     return self;
 }
 
-Menu *new_menu()
+Shell *new_shell()
 {
-    Menu *menu = malloc(sizeof(Menu));
-    menu->title = NULL;
-    menu->function = NULL;
-    menu->selected = 0;
-    menu->count = 0;
-    menu->items = NULL;
-    menu->parent = NULL;
-    return menu;
+    Shell *shell = malloc(sizeof(Shell));
+    shell->title = NULL;
+    shell->function = NULL;
+    shell->selected = 0;
+    shell->count = 0;
+    shell->items = NULL;
+    shell->parent = NULL;
+    return shell;
 }
 
-void free_menu(Menu *self)
+void free_shell(Shell *self)
 {
     Queue *q = new_queue();
     push(q, (void *)self);
     while (!is_empty(q))
     {
-        Menu *menu = (Menu *)pop(q);
-        for (int i = 0; i < getCount(menu); i++)
+        Shell *shell = (Shell *)pop(q);
+        for (int i = 0; i < getCount(shell); i++)
         {
-            push(q, (void *)menu->items[i]);
+            push(q, (void *)shell->items[i]);
         }
-        free(menu->items);
-        free(menu);
+        free(shell->items);
+        shell->items = NULL;
+        free(shell->title);
+        shell->title = NULL;
+        free(shell);
+        shell = NULL;
     }
     free_queue(q);
 }
 
-Menu *new_menu_item(char *title_en, void *function)
+Shell *new_shell_item(char *title_en, void *function)
 {
-    Menu *menu = new_menu();
-    setTitle(menu, title_en);
-    setFunction(menu, function);
-    return menu;
+    Shell *shell = new_shell();
+    setTitle(shell, title_en);
+    setFunction(shell, function);
+    return shell;
 }

@@ -58,16 +58,6 @@ void terminal_reset()
 	printf("\033[0m");
 }
 
-void terminal_printUnicode(const wchar_t lc)
-{
-	wprintf(L"%lc", lc);
-}
-
-void terminal_printUnicodeString(const wchar_t *str)
-{
-	wprintf(L"%ls", str);
-}
-
 void terminal_printChar(const char c)
 {
 	printf("%c", c);
