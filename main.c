@@ -2,8 +2,6 @@
 #include "./src/shell.h"
 #include <stdio.h>
 
-Shell *shell; // only one anywhere
-
 int main()
 {
     initialize();

@@ -11,7 +11,7 @@
 #include "section.h"
 #include "participant.h"
 
-extern Shell *shell;
+Shell *shell;
 extern Node *node;
 extern Participant *participant;
 
