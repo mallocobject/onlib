@@ -37,35 +37,42 @@ void terminate()
 void setBaseShell()
 {
     setTitle(shell, "Online Library");
-    Shell *admin = addOption(shell, new_shell_item("Admin", selectAdmin));
-    Shell *user = addOption(shell, new_shell_item("User", selectuser));
 
-    addOption(admin, new_shell_item("Add", mainMenu_8));
-    addOption(admin, new_shell_item("Delete", mainMenu_9));
-    addOption(admin, new_shell_item("Modify", mainMenu_4));
-    addOption(admin, new_shell_item("Search", mainMenu_3));
-    addOption(admin, new_shell_item("List", mainMenu_7));
-    addOption(admin, new_shell_item("Log", mainMenu_11));
+    Shell *admin = addOption(shell, new_shell_item("Admin", NULL));
+    Shell *admin_si = addOption(admin, new_shell_item("Sign In", signIn));
+    Shell *admin_sp = addOption(admin, new_shell_item("Sign Up", signUp));
 
-    Shell *sort = addOption(admin, new_shell_item("Sort", NULL));
+    Shell *user = addOption(shell, new_shell_item("User", NULL));
+    Shell *user_si = addOption(user, new_shell_item("Sign In", signIn));
+    Shell *user_sp = addOption(user, new_shell_item("Sign Up", signUp));
 
-    addOption(sort, new_shell_item("Name", mainMenu_5));
-    addOption(sort, new_shell_item("Category", mainMenu_5));
-    addOption(sort, new_shell_item("Author", mainMenu_5));
-    addOption(sort, new_shell_item("Quantity", mainMenu_5));
-    addOption(sort, new_shell_item("Price", mainMenu_5));
+    Shell *shell_arr[] = {admin_si, admin_sp, user_si, user_sp};
 
-    addOption(admin, new_shell_item("Borrow", mainMenu_1));
-    addOption(admin, new_shell_item("Return", mainMenu_2));
-    addOption(admin, new_shell_item("Borrowed", mainMenu_10));
-    addOption(admin, new_shell_item("Checkout", mainMenu_6));
+    for (int i = 0; i < sizeof(shell_arr) / sizeof(shell_arr[0]); i++)
+    {
+        if (i <= 1)
+        {
+            addOption(shell_arr[i], new_shell_item("Add", mainMenu_8));
+            addOption(shell_arr[i], new_shell_item("Delete", mainMenu_9));
+            addOption(shell_arr[i], new_shell_item("Modify", mainMenu_4));
+            addOption(shell_arr[i], new_shell_item("Log", mainMenu_11));
 
-    addOption(user, new_shell_item("Borrow", mainMenu_1));
-    addOption(user, new_shell_item("Return", mainMenu_2));
-    addOption(user, new_shell_item("Search", mainMenu_3));
-    addOption(user, new_shell_item("List", mainMenu_7));
-    addOption(user, new_shell_item("Borrowed", mainMenu_10));
-    addOption(user, new_shell_item("Checkout", mainMenu_6));
+            Shell *sort = addOption(shell_arr[i], new_shell_item("Sort", NULL));
+
+            addOption(sort, new_shell_item("Name", mainMenu_5));
+            addOption(sort, new_shell_item("Category", mainMenu_5));
+            addOption(sort, new_shell_item("Author", mainMenu_5));
+            addOption(sort, new_shell_item("Quantity", mainMenu_5));
+            addOption(sort, new_shell_item("Price", mainMenu_5));
+        }
+
+        addOption(shell_arr[i], new_shell_item("Borrow", mainMenu_1));
+        addOption(shell_arr[i], new_shell_item("Return", mainMenu_2));
+        addOption(shell_arr[i], new_shell_item("Search", mainMenu_3));
+        addOption(shell_arr[i], new_shell_item("List", mainMenu_7));
+        addOption(shell_arr[i], new_shell_item("Borrowed", mainMenu_10));
+        addOption(shell_arr[i], new_shell_item("Checkout", mainMenu_6));
+    }
 }
 
 void mainLoop()
@@ -76,7 +83,6 @@ void mainLoop()
         show(shell);
 
         char ch = _getch();
-
         if (ch == -32) // 检测到转义字符
         {
             ch = _getch();
@@ -125,7 +131,7 @@ void import()
     char name[1024], category[1024], author[1024];
     int quantity;
     float price;
-    while (fscanf(file, " %1023[^|] | %1023[^|] | %1023[^|] | %d | %f\n", name, category, author, &quantity, &price) == 5)
+    while (fscanf(file, " %1023[^|]|%1023[^|]|%1023[^|]|%d|%f\n", name, category, author, &quantity, &price) == 5)
     {
         Data data;
         int len = strlen(name);
@@ -160,7 +166,7 @@ void export()
     Node *cur_node = node;
     while (cur_node != NULL)
     {
-        fprintf(file, "%s | %s | %s | %d | %.2f\n", cur_node->data.name, cur_node->data.category, cur_node->data.author, cur_node->data.quantity, cur_node->data.price);
+        fprintf(file, "%s|%s|%s|%d|%.2f\n", cur_node->data.name, cur_node->data.category, cur_node->data.author, cur_node->data.quantity, cur_node->data.price);
         cur_node = cur_node->next;
     }
     fclose(file);

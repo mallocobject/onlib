@@ -55,3 +55,9 @@ void mainMenu_10();
 
 // log
 void mainMenu_11();
+
+// sign up
+void signUp();
+
+// sign in
+void signIn();

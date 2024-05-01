@@ -74,6 +74,8 @@ void checkout(Participant *participant)
 
 void deleteParticipant(Participant *participant)
 {
+    if (participant == NULL)
+        return;
     for (int i = 0; i < participant->numbooks; i++)
     {
         free(participant->books[i]);

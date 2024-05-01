@@ -10,6 +10,7 @@
 Node *node = NULL;
 Participant *participant = NULL;
 extern Shell *shell;
+extern bool isAdmin;
 
 void block()
 {
@@ -57,21 +58,21 @@ void printLog(const char *func, char *name)
     fclose(file);
 }
 
-// select Admin
-void selectAdmin()
-{
-    if (participant != NULL)
-        deleteParticipant(participant);
-    participant = newParticipant(0, true);
-}
+// // select Admin
+// void selectAdmin()
+// {
+//     if (participant != NULL)
+//         deleteParticipant(participant);
+//     participant = newParticipant(0, true);
+// }
 
-// select User
-void selectuser()
-{
-    if (participant != NULL)
-        deleteParticipant(participant);
-    participant = newParticipant(0, false);
-}
+// // select User
+// void selectuser()
+// {
+//     if (participant != NULL)
+//         deleteParticipant(participant);
+//     participant = newParticipant(0, false);
+// }
 
 // borrow
 void mainMenu_1()
@@ -147,12 +148,6 @@ void mainMenu_3()
 // modify
 void mainMenu_4()
 {
-    if (participant->isAdmin == false)
-    {
-        printf("\nYou have no access.");
-        block();
-        return;
-    }
     char name[100];
     printf("\nEnter name: ");
     scanf("%s", name);
@@ -283,12 +278,6 @@ void mainMenu_7()
 // add
 void mainMenu_8()
 {
-    if (participant->isAdmin == false)
-    {
-        printf("\nYou have no access.");
-        block();
-        return;
-    }
     Data data;
     char name[100], category[100], author[100];
     int quantity;
@@ -341,15 +330,9 @@ void mainMenu_8()
 // delete
 void mainMenu_9()
 {
-    if (participant->isAdmin == false)
-    {
-        printf("\nYou have no access.");
-        block();
-        return;
-    }
     char name[100];
     printf("\nEnter name: ");
-    scanf("%s", name);
+    fgets(name, 100, stdin);
 
     getchar();
     deleteNode(&node, name);
@@ -378,6 +361,103 @@ void mainMenu_11()
     printf("\n");
     while ((ch = fgetc(file)) != EOF)
         printf("%c", ch);
+    fclose(file);
+    block();
+}
+
+// sign up
+void signUp()
+{
+    char username[100], password[100];
+    printf("\nEnter username: ");
+    scanf("%s", username);
+    printf("Enter password: ");
+    scanf("%s", password);
+
+    FILE *file = fopen("../asset/participant.txt", "r");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+    char exist_username[100], exist_password[100], exist_role[100];
+    while (fscanf(file, "%s %s %s", exist_username, exist_password, exist_role) == 3)
+    {
+        if (strcmp(exist_username, username) == 0)
+        {
+            getchar();
+            printf("\nUsername already exists.");
+            fclose(file);
+            block();
+            return;
+        }
+    }
+    fclose(file);
+
+    file = fopen("../asset/participant.txt", "a");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+
+    fprintf(file, "%s %s %s\n", username, password, isAdmin ? "admin" : "user");
+    fclose(file);
+    getchar();
+    printf("\nSuccessfully signed up.");
+    block();
+}
+
+// sign in
+void signIn()
+{
+    char username[100], password[100];
+    printf("\nEnter username: ");
+    scanf("%s", username);
+    printf("Enter password: ");
+    scanf("%s", password);
+
+    FILE *file = fopen("../asset/participant.txt", "r");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+    char user[100], pass[100], role[100];
+    while (fscanf(file, "%s %s %s", user, pass, role) == 3)
+    {
+        if (strcmp(user, username) == 0 && strcmp(pass, password) == 0)
+        {
+            if (isAdmin && strcmp(role, "admin") != 0)
+            {
+                getchar();
+                printf("\nInvalid username or password.");
+                fclose(file);
+                block();
+                return;
+            }
+            else if (!isAdmin && strcmp(role, "user") != 0)
+            {
+                getchar();
+                printf("\nInvalid username or password.");
+                fclose(file);
+                block();
+                return;
+            }
+
+            if (participant != NULL)
+                deleteParticipant(participant);
+            participant = newParticipant(0, strcmp(role, "admin") == 0);
+            getchar();
+            printf("\nSuccessfully signed in.");
+            fclose(file);
+            block();
+            return;
+        }
+    }
+
+    getchar();
+    printf("\nInvalid username or password.");
     fclose(file);
     block();
 }

@@ -4,6 +4,11 @@
 #include "terminal.h"
 #include <stdio.h>
 #include <string.h>
+#include "participant.h"
+
+bool isAdmin;
+
+extern Participant *participant;
 
 void setTitle(Shell *self, char *title)
 {
@@ -108,10 +113,16 @@ void down(Shell *self)
 
 Shell *enter(Shell *self)
 {
-    Shell *item = self->items[getSelected(self)];
+    int index = getSelected(self);
+    if (self->parent == NULL)
+        isAdmin = index == 0;
+    Shell *item = self->items[index];
     if (item->function != NULL)
+    {
+        terminal_clearScreen();
         ((void (*)(Shell *))item->function)(item);
-    if (item->items != NULL)
+    }
+    if (item->items != NULL && (participant != NULL || strcmp(self->title, "Online Library") == 0))
     {
         show(item);
         return item;
