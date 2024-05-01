@@ -119,3 +119,67 @@ void printList(Node *head)
         cur_node = cur_node->next;
     }
 }
+
+// 将链表分成两半
+void splitList(Node *head, Node **front, Node **back)
+{
+    Node *slow = head;
+    Node *fast = head->next;
+
+    while (fast != NULL)
+    {
+        fast = fast->next;
+        if (fast != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+
+    *front = head;
+    *back = slow->next;
+    slow->next = NULL;
+}
+
+// 合并两个已排序的链表
+Node *mergeLists(Node *a, Node *b, bool (*cmp)(Node *, Node *))
+{
+    Node *result = NULL;
+
+    if (a == NULL)
+        return b;
+    else if (b == NULL)
+        return a;
+
+    // if (strcmp(a->data.name, b->data.name) <= 0)
+    if (((bool (*)(Node *, Node *))cmp)(a, b))
+    {
+        result = a;
+        result->next = mergeLists(a->next, b, cmp);
+    }
+    else
+    {
+        result = b;
+        result->next = mergeLists(a, b->next, cmp);
+    }
+
+    return result;
+}
+
+// 对链表进行归并排序
+void mergeSort(Node **headRef, bool (*cmp)(Node *, Node *)) // bool (*cmp)(Node *, Node *)
+{
+    Node *head = *headRef;
+    Node *a;
+    Node *b;
+
+    if ((head == NULL) || (head->next == NULL))
+        return;
+
+    splitList(head, &a, &b);
+
+    mergeSort(&a, cmp);
+    mergeSort(&b, cmp);
+
+    *headRef = mergeLists(a, b, cmp);
+}

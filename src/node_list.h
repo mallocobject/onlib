@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 typedef struct Data
 {
     char *name;
@@ -27,3 +29,12 @@ void deleteAllNodes(Node **head); // 删除所有节点
 void appendNode(Node **head, Data data); // 在链表末尾添加一个包含给定 Data 的节点
 
 void printList(Node *head); // 打印链表
+
+// 将链表分成两半
+void splitList(Node *head, Node **front, Node **back);
+
+// 合并两个已排序的链表
+Node *mergeLists(Node *a, Node *b, bool (*cmp)(Node *, Node *));
+
+// 对链表进行归并排序
+void mergeSort(Node **headRef, bool (*cmp)(Node *, Node *));

@@ -5,9 +5,11 @@
 #include "node_list.h"
 #include "participant.h"
 #include "logic.h"
+#include "shell.h"
 
 Node *node = NULL;
 Participant *participant = NULL;
+extern Shell *shell;
 
 void block()
 {
@@ -162,6 +164,31 @@ void mainMenu_4()
     block();
 }
 
+bool cmpName(Node *a, Node *b)
+{
+    return strcmp(a->data.name, b->data.name) <= 0;
+}
+
+bool cmpCategory(Node *a, Node *b)
+{
+    return strcmp(a->data.category, b->data.category) <= 0;
+}
+
+bool cmpAuthor(Node *a, Node *b)
+{
+    return strcmp(a->data.author, b->data.author) <= 0;
+}
+
+bool cmpQuantity(Node *a, Node *b)
+{
+    return a->data.quantity <= b->data.quantity;
+}
+
+bool cmpPrice(Node *a, Node *b)
+{
+    return a->data.price <= b->data.price;
+}
+
 // sort
 void mainMenu_5()
 {
@@ -171,7 +198,23 @@ void mainMenu_5()
         block();
         return;
     }
-    printList(node);
+
+    bool (*cmp)(Node *, Node *);
+
+    if (shell->selected == 0)
+        cmp = cmpName;
+    else if (shell->selected == 1)
+        cmp = cmpCategory;
+    else if (shell->selected == 2)
+        cmp = cmpAuthor;
+    else if (shell->selected == 3)
+        cmp = cmpQuantity;
+    else if (shell->selected == 4)
+        cmp = cmpPrice;
+
+    mergeSort(&node, cmp);
+
+    printf("\nSuccessfully sorted.");
 
     // getchar();
     block();

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdbool.h>
+#include "node_list.h"
+
 void block();
 
 // select Admin
@@ -22,6 +25,16 @@ void mainMenu_4();
 
 // sort
 void mainMenu_5();
+
+bool cmpName(Node *a, Node *b);
+
+bool cmpCategory(Node *a, Node *b);
+
+bool cmpAuthor(Node *a, Node *b);
+
+bool cmpQuantity(Node *a, Node *b);
+
+bool cmpPrice(Node *a, Node *b);
 
 // checkout
 void mainMenu_6();

@@ -45,7 +45,15 @@ void setBaseShell()
     addOption(admin, new_shell_item("Modify", mainMenu_4));
     addOption(admin, new_shell_item("Search", mainMenu_3));
     addOption(admin, new_shell_item("List", mainMenu_7));
-    addOption(admin, new_shell_item("Sort", mainMenu_5));
+
+    Shell *sort = addOption(admin, new_shell_item("Sort", NULL));
+
+    addOption(sort, new_shell_item("Name", mainMenu_5));
+    addOption(sort, new_shell_item("Category", mainMenu_5));
+    addOption(sort, new_shell_item("Author", mainMenu_5));
+    addOption(sort, new_shell_item("Quantity", mainMenu_5));
+    addOption(sort, new_shell_item("Price", mainMenu_5));
+
     addOption(admin, new_shell_item("Borrow", mainMenu_1));
     addOption(admin, new_shell_item("Return", mainMenu_2));
     addOption(admin, new_shell_item("Borrowed", mainMenu_10));
