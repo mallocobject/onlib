@@ -4,6 +4,7 @@
 #include <string.h>
 #include "node_list.h"
 #include "participant.h"
+#include "logic.h"
 
 Node *node = NULL;
 Participant *participant = NULL;
@@ -43,6 +44,8 @@ void mainMenu_1()
     Node *temp = searchNode(node, name);
     if (temp == NULL || strcmp(temp->data.name, name) != 0)
         printf("\nBook not found.");
+    else if (temp->data.quantity == 0)
+        printf("\nBook out of stock.");
     else
     {
         temp->data.quantity--;

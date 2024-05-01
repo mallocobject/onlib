@@ -20,11 +20,13 @@ void initialize()
     terminal_clearScreen();
     terminal_hideCursor();
     shell = new_shell();
+    import();
 }
 
 void terminate()
 {
     free_shell(shell);
+    export();
     deleteAllNodes(&node);
     deleteParticipant(participant);
     terminal_showCursor();
@@ -99,6 +101,59 @@ void mainLoop()
             running = false;
         }
     }
+}
+
+// import
+void import()
+{
+    FILE *file = fopen("../asset/data.txt", "r");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+    char name[100], category[100], author[100];
+    int quantity;
+    float price;
+    while (fscanf(file, "%s | %s | %s | %d | %f\n", name, category, author, &quantity, &price) != EOF)
+    {
+        Data data;
+        int len = strlen(name);
+        data.name = (char *)malloc(len + 1);
+        strcpy(data.name, name);
+
+        len = strlen(category);
+        data.category = (char *)malloc(len + 1);
+        strcpy(data.category, category);
+
+        len = strlen(author);
+        data.author = (char *)malloc(len + 1);
+        strcpy(data.author, author);
+
+        data.quantity = quantity;
+        data.price = price;
+
+        appendNode(&node, data);
+    }
+    fclose(file);
+}
+
+// export
+void export()
+{
+    FILE *file = fopen("../asset/data.txt", "w");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+    Node *cur_node = node;
+    while (cur_node != NULL)
+    {
+        fprintf(file, "%s | %s | %s | %d | %.2f\n", cur_node->data.name, cur_node->data.category, cur_node->data.author, cur_node->data.quantity, cur_node->data.price);
+        cur_node = cur_node->next;
+    }
+    fclose(file);
 }
 
 // void func_11()
