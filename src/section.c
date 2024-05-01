@@ -88,6 +88,17 @@ void mainMenu_1()
         printf("\nBook out of stock.");
     else
     {
+        for (int i = 0; i < participant->numbooks; i++)
+        {
+            if (strcmp(participant->books[i], name) == 0)
+            {
+                printf("\nYou have already borrowed this book.");
+                getchar();
+                block();
+                return;
+            }
+        }
+
         temp->data.quantity--;
         addBook(participant, name);
         printLog(__func__, name);
@@ -184,7 +195,6 @@ void mainMenu_4()
 
         printLog(__func__, name);
 
-        char *book = participant->books[0];
         for (int i = 0; i < participant->numbooks; i++)
         {
             if (strcmp(participant->books[i], name) == 0)
@@ -332,7 +342,7 @@ void mainMenu_9()
 {
     char name[100];
     printf("\nEnter name: ");
-    fgets(name, 100, stdin);
+    scanf("%s", name);
 
     getchar();
     deleteNode(&node, name);

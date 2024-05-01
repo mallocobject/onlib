@@ -30,41 +30,40 @@ void deleteNode(Node **head, char *name)
         return;
 
     Node *dummy_head = createNode((Data){.name = "", .category = "", .author = "", .quantity = 0, .price = 0.0});
-
     dummy_head->next = *head;
 
-    Node *temp = searchNode(*head, name);
-    while (temp != NULL && strcmp(temp->data.name, name) != 0)
+    Node *prev_node = dummy_head;
+    Node *cur_node = *head;
+    while (cur_node != NULL && strcmp(cur_node->data.name, name) != 0)
     {
-        temp = searchNode(temp->next, name);
+        prev_node = cur_node;
+        cur_node = cur_node->next;
     }
-    if (temp == NULL)
-        printf("\nBook not found.");
 
-    if (temp != NULL)
+    if (cur_node == NULL)
     {
-        if (temp == *head)
+        printf("\nBook not found.");
+    }
+    else
+    {
+        prev_node->next = cur_node->next;
+        if (cur_node->data.name != NULL)
         {
-            dummy_head->next = (*head)->next;
-            free(temp);
+            free(cur_node->data.name);
+            cur_node->data.name = NULL;
         }
-        else
+        if (cur_node->data.category != NULL)
         {
-            Node *cur_node = dummy_head;
-            while (cur_node->next != temp)
-            {
-                cur_node = cur_node->next;
-            }
-            cur_node->next = temp->next;
-            free(temp->data.name);
-            temp->data.name = NULL;
-            free(temp->data.category);
-            temp->data.category = NULL;
-            free(temp->data.author);
-            temp->data.author = NULL;
-            free(temp);
-            temp = NULL;
+            free(cur_node->data.category);
+            cur_node->data.category = NULL;
         }
+        if (cur_node->data.author != NULL)
+        {
+            free(cur_node->data.author);
+            cur_node->data.author = NULL;
+        }
+        free(cur_node);
+        cur_node = NULL;
         printf("\nSuccessful delete.");
     }
 
@@ -79,12 +78,21 @@ void deleteAllNodes(Node **head)
     {
         Node *temp = cur_node;
         cur_node = cur_node->next;
-        free(temp->data.name);
-        temp->data.name = NULL;
-        free(temp->data.category);
-        temp->data.category = NULL;
-        free(temp->data.author);
-        temp->data.author = NULL;
+        if (temp->data.name != NULL)
+        {
+            free(temp->data.name);
+            temp->data.name = NULL;
+        }
+        if (temp->data.category != NULL)
+        {
+            free(temp->data.category);
+            temp->data.category = NULL;
+        }
+        if (temp->data.author != NULL)
+        {
+            free(temp->data.author);
+            temp->data.author = NULL;
+        }
         free(temp);
         temp = NULL;
     }
