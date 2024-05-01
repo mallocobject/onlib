@@ -1,6 +1,5 @@
 #pragma once
 
-#include <wchar.h>
 #include <stdbool.h>
 
 typedef struct Shell

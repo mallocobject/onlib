@@ -1,5 +1,5 @@
-#include "logic.h"
-#include "shell.h"
+#include "./src/logic.h"
+#include "./src/shell.h"
 #include <stdio.h>
 
 Shell *shell; // only one anywhere

@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <conio.h> // for _kbhit() and _getch()
 #include <stdbool.h>
-#include "./onlib/node_list.h"
+#include "node_list.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include "./src/mainmenu.h"
+#include "mainmenu.h"
 
 extern Shell *shell;
 extern Node *node;
