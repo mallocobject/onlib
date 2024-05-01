@@ -5,6 +5,8 @@
 
 void block();
 
+void printLog(const char *func, char *name);
+
 // select Admin
 void selectAdmin();
 
@@ -50,3 +52,6 @@ void mainMenu_9();
 
 // borrowd
 void mainMenu_10();
+
+// log
+void mainMenu_11();

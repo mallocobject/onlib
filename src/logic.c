@@ -38,13 +38,14 @@ void setBaseShell()
 {
     setTitle(shell, "Online Library");
     Shell *admin = addOption(shell, new_shell_item("Admin", selectAdmin));
-    Shell *user = addOption(shell, new_shell_item("user", selectuser));
+    Shell *user = addOption(shell, new_shell_item("User", selectuser));
 
     addOption(admin, new_shell_item("Add", mainMenu_8));
     addOption(admin, new_shell_item("Delete", mainMenu_9));
     addOption(admin, new_shell_item("Modify", mainMenu_4));
     addOption(admin, new_shell_item("Search", mainMenu_3));
     addOption(admin, new_shell_item("List", mainMenu_7));
+    addOption(admin, new_shell_item("Log", mainMenu_11));
 
     Shell *sort = addOption(admin, new_shell_item("Sort", NULL));
 
@@ -62,6 +63,7 @@ void setBaseShell()
     addOption(user, new_shell_item("Borrow", mainMenu_1));
     addOption(user, new_shell_item("Return", mainMenu_2));
     addOption(user, new_shell_item("Search", mainMenu_3));
+    addOption(user, new_shell_item("List", mainMenu_7));
     addOption(user, new_shell_item("Borrowed", mainMenu_10));
     addOption(user, new_shell_item("Checkout", mainMenu_6));
 }

@@ -20,6 +20,43 @@ void block()
     };
 }
 
+void printLog(const char *func, char *name)
+{
+    FILE *file = fopen("../asset/log.log", "a");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+    char *who = participant->isAdmin ? "Admin" : "User";
+    char *does = NULL;
+    if (strcmp(func, "mainMenu_1") == 0)
+        does = "borrowed";
+    else if (strcmp(func, "mainMenu_2") == 0)
+        does = "returned";
+    else if (strcmp(func, "mainMenu_4") == 0)
+        does = "modified";
+    else if (strcmp(func, "mainMenu_8") == 0)
+        does = "added";
+    else if (strcmp(func, "mainMenu_9") == 0)
+        does = "deleted";
+    else if (strcmp(func, "mainMenu_6") == 0)
+        does = "checked out";
+    else if (strcmp(func, "mainMenu_10") == 0)
+        does = "viewed borrowed books";
+    else if (strcmp(func, "mainMenu_5") == 0)
+        does = "sorted";
+    else if (strcmp(func, "mainMenu_7") == 0)
+        does = "listed";
+    else if (strcmp(func, "mainMenu_3") == 0)
+        does = "searched";
+    else
+        does = "unknown";
+
+    fprintf(file, "[%s-%s] %s %s \"%s\"\n", __DATE__, __TIME__, who, does, name);
+    fclose(file);
+}
+
 // select Admin
 void selectAdmin()
 {
@@ -46,12 +83,13 @@ void mainMenu_1()
     Node *temp = searchNode(node, name);
     if (temp == NULL || strcmp(temp->data.name, name) != 0)
         printf("\nBook not found.");
-    else if (temp->data.quantity == 0)
+    else if (temp->data.quantity <= 0)
         printf("\nBook out of stock.");
     else
     {
         temp->data.quantity--;
         addBook(participant, name);
+        printLog(__func__, name);
         printf("\nSuccessfully borrowed.");
     }
 
@@ -73,6 +111,7 @@ void mainMenu_2()
     {
         temp->data.quantity++;
         returnBook(participant, name);
+        printLog(__func__, name);
         printf("\nSuccessfully returned.");
     }
 
@@ -99,6 +138,7 @@ void mainMenu_3()
         }
         cur_node = cur_node->next;
     }
+    printLog(__func__, word);
 
     getchar();
     block();
@@ -146,6 +186,8 @@ void mainMenu_4()
 
         printf("Enter new price: ");
         scanf("%f", &temp->data.price);
+
+        printLog(__func__, name);
 
         char *book = participant->books[0];
         for (int i = 0; i < participant->numbooks; i++)
@@ -214,6 +256,8 @@ void mainMenu_5()
 
     mergeSort(&node, cmp);
 
+    printLog(__func__, "all");
+
     printf("\nSuccessfully sorted.");
 
     // getchar();
@@ -224,6 +268,7 @@ void mainMenu_5()
 void mainMenu_6()
 {
     checkout(participant);
+    printLog(__func__, "all");
     block();
 }
 
@@ -231,6 +276,7 @@ void mainMenu_6()
 void mainMenu_7()
 {
     printList(node);
+    printLog(__func__, "all");
     block();
 }
 
@@ -283,9 +329,12 @@ void mainMenu_8()
 
     if (temp != NULL)
         printf("\nBook already exists.");
-
     else
+    {
+        printLog(__func__, name);
         appendNode(&node, data);
+    }
+
     block();
 }
 
@@ -304,6 +353,7 @@ void mainMenu_9()
 
     getchar();
     deleteNode(&node, name);
+    printLog(__func__, name);
     block();
 }
 
@@ -311,5 +361,23 @@ void mainMenu_9()
 void mainMenu_10()
 {
     listBooks(participant);
+    printLog(__func__, "all");
+    block();
+}
+
+// log
+void mainMenu_11()
+{
+    FILE *file = fopen("../asset/log.log", "r");
+    if (file == NULL)
+    {
+        printf("\nError opening file.");
+        return;
+    }
+    char ch;
+    printf("\n");
+    while ((ch = fgetc(file)) != EOF)
+        printf("%c", ch);
+    fclose(file);
     block();
 }
