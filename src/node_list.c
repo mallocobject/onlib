@@ -111,11 +111,11 @@ void printList(Node *head)
     Node *cur_node = head;
     while (cur_node != NULL)
     {
-        printf("\nName: %s", cur_node->data.name);
-        printf(" | Category: %s", cur_node->data.category);
-        printf(" | Author: %s", cur_node->data.author);
-        printf(" | Quantity: %d", cur_node->data.quantity);
-        printf(" | Price: %.2f", cur_node->data.price);
+        printf("\n%s", cur_node->data.name);
+        printf(" | %s", cur_node->data.category);
+        printf(" | %s", cur_node->data.author);
+        printf(" | %d", cur_node->data.quantity);
+        printf(" | %.2f", cur_node->data.price);
         cur_node = cur_node->next;
     }
 }

@@ -122,10 +122,10 @@ void import()
         printf("\nError opening file.");
         return;
     }
-    char name[100], category[100], author[100];
+    char name[1024], category[1024], author[1024];
     int quantity;
     float price;
-    while (fscanf(file, "%s | %s | %s | %d | %f\n", name, category, author, &quantity, &price) != EOF)
+    while (fscanf(file, " %1023[^|] | %1023[^|] | %1023[^|] | %d | %f\n", name, category, author, &quantity, &price) == 5)
     {
         Data data;
         int len = strlen(name);

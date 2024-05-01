@@ -1,5 +1,4 @@
 #include "./src/logic.h"
-#include "./src/shell.h"
 #include <stdio.h>
 
 int main()
