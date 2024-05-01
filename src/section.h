@@ -2,6 +2,12 @@
 
 void block();
 
+// select Admin
+void selectAdmin();
+
+// select user
+void selectuser();
+
 // borrow
 void mainMenu_1();
 
@@ -17,7 +23,7 @@ void mainMenu_4();
 // sort
 void mainMenu_5();
 
-// charge
+// checkout
 void mainMenu_6();
 
 // list
@@ -28,3 +34,6 @@ void mainMenu_8();
 
 // delete
 void mainMenu_9();
+
+// borrowd
+void mainMenu_10();

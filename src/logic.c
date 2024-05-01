@@ -8,10 +8,12 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include "mainmenu.h"
+#include "section.h"
+#include "participant.h"
 
 extern Shell *shell;
 extern Node *node;
+extern Participant *participant;
 
 void initialize()
 {
@@ -24,6 +26,7 @@ void terminate()
 {
     free_shell(shell);
     deleteAllNodes(&node);
+    deleteParticipant(participant);
     terminal_showCursor();
     terminal_reset();
 }
@@ -32,15 +35,25 @@ void terminate()
 void setBaseShell()
 {
     setTitle(shell, "Online Library");
-    addOption(shell, new_shell_item("Borrow", mainMenu_1));
-    addOption(shell, new_shell_item("Return", mainMenu_2));
-    addOption(shell, new_shell_item("Search", mainMenu_3));
-    addOption(shell, new_shell_item("Modify", mainMenu_4));
-    addOption(shell, new_shell_item("Sort", mainMenu_5));
-    addOption(shell, new_shell_item("Charge", mainMenu_6));
-    addOption(shell, new_shell_item("List", mainMenu_7));
-    addOption(shell, new_shell_item("Add", mainMenu_8));
-    addOption(shell, new_shell_item("Delete", mainMenu_9));
+    Shell *admin = addOption(shell, new_shell_item("Admin", selectAdmin));
+    Shell *user = addOption(shell, new_shell_item("user", selectuser));
+
+    addOption(admin, new_shell_item("Add", mainMenu_8));
+    addOption(admin, new_shell_item("Delete", mainMenu_9));
+    addOption(admin, new_shell_item("Modify", mainMenu_4));
+    addOption(admin, new_shell_item("Search", mainMenu_3));
+    addOption(admin, new_shell_item("List", mainMenu_7));
+    addOption(admin, new_shell_item("Sort", mainMenu_5));
+    addOption(admin, new_shell_item("Borrow", mainMenu_1));
+    addOption(admin, new_shell_item("Return", mainMenu_2));
+    addOption(admin, new_shell_item("Borrowed", mainMenu_10));
+    addOption(admin, new_shell_item("Checkout", mainMenu_6));
+
+    addOption(user, new_shell_item("Borrow", mainMenu_1));
+    addOption(user, new_shell_item("Return", mainMenu_2));
+    addOption(user, new_shell_item("Search", mainMenu_3));
+    addOption(user, new_shell_item("Borrowed", mainMenu_10));
+    addOption(user, new_shell_item("Checkout", mainMenu_6));
 }
 
 void mainLoop()

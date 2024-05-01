@@ -1,10 +1,12 @@
-#include "mainmenu.h"
+#include "section.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "node_list.h"
+#include "participant.h"
 
 Node *node = NULL;
+Participant *participant = NULL;
 
 void block()
 {
@@ -13,6 +15,22 @@ void block()
     while ((ch = getchar()) != '\n' && ch != EOF)
     {
     };
+}
+
+// select Admin
+void selectAdmin()
+{
+    if (participant != NULL)
+        deleteParticipant(participant);
+    participant = newParticipant(0, true);
+}
+
+// select User
+void selectuser()
+{
+    if (participant != NULL)
+        deleteParticipant(participant);
+    participant = newParticipant(0, false);
 }
 
 // borrow
@@ -28,6 +46,7 @@ void mainMenu_1()
     else
     {
         temp->data.quantity--;
+        addBook(participant, name);
         printf("\nSuccessfully borrowed.");
     }
 
@@ -48,6 +67,7 @@ void mainMenu_2()
     else
     {
         temp->data.quantity++;
+        returnBook(participant, name);
         printf("\nSuccessfully returned.");
     }
 
@@ -82,12 +102,21 @@ void mainMenu_3()
 // modify
 void mainMenu_4()
 {
+    if (participant->isAdmin == false)
+    {
+        printf("\nYou have no access.");
+        block();
+        return;
+    }
     char name[100];
     printf("\nEnter name: ");
     scanf("%s", name);
 
     Node *temp = searchNode(node, name);
-    if (strcmp(temp->data.name, name) == 0)
+    if (temp == NULL || strcmp(temp->data.name, name) != 0)
+        printf("\nBook not found.");
+
+    else if (strcmp(temp->data.name, name) == 0)
     {
         printf("\nEnter new name: ");
         scanf("%s", name);
@@ -112,6 +141,16 @@ void mainMenu_4()
 
         printf("Enter new price: ");
         scanf("%f", &temp->data.price);
+
+        char *book = participant->books[0];
+        for (int i = 0; i < participant->numbooks; i++)
+        {
+            if (strcmp(participant->books[i], name) == 0)
+            {
+                participant->books[i] = realloc(participant->books[i], strlen(name) + 1);
+                strcpy(participant->books[i], name);
+            }
+        }
     }
     else
         printf("\nBook not found.");
@@ -123,16 +162,22 @@ void mainMenu_4()
 // sort
 void mainMenu_5()
 {
+    if (participant->isAdmin == false)
+    {
+        printf("\nYou have no access.");
+        block();
+        return;
+    }
     printList(node);
 
     // getchar();
     block();
 }
 
-// charge
+// checkout
 void mainMenu_6()
 {
-    printf("\nCharge");
+    checkout(participant);
     block();
 }
 
@@ -146,6 +191,12 @@ void mainMenu_7()
 // add
 void mainMenu_8()
 {
+    if (participant->isAdmin == false)
+    {
+        printf("\nYou have no access.");
+        block();
+        return;
+    }
     Data data;
     char name[100], category[100], author[100];
     int quantity;
@@ -178,18 +229,41 @@ void mainMenu_8()
     data.price = price;
 
     getchar();
-    appendNode(&node, data);
+    Node *temp = searchNode(node, name);
+    while (temp != NULL && strcmp(temp->data.name, name) != 0)
+    {
+        temp = searchNode(temp->next, name);
+    }
+
+    if (temp != NULL)
+        printf("\nBook already exists.");
+
+    else
+        appendNode(&node, data);
     block();
 }
 
 // delete
 void mainMenu_9()
 {
+    if (participant->isAdmin == false)
+    {
+        printf("\nYou have no access.");
+        block();
+        return;
+    }
     char name[100];
     printf("\nEnter name: ");
     scanf("%s", name);
 
     getchar();
     deleteNode(&node, name);
+    block();
+}
+
+// borrowed
+void mainMenu_10()
+{
+    listBooks(participant);
     block();
 }

@@ -3,6 +3,7 @@
 #include "m_queue.h"
 #include "terminal.h"
 #include <stdio.h>
+#include <string.h>
 
 void setTitle(Shell *self, char *title)
 {
@@ -110,7 +111,7 @@ Shell *enter(Shell *self)
     Shell *item = self->items[getSelected(self)];
     if (item->function != NULL)
         ((void (*)(Shell *))item->function)(item);
-    else
+    if (item->items != NULL)
     {
         show(item);
         return item;
