@@ -8,4 +8,4 @@ aux_source_directory(. C_SOURCES)
 
 aux_source_directory(src/ C_SOURCES)
 
-add_executable(static_system ${C_SOURCES})
+add_executable(onlib ${C_SOURCES})
