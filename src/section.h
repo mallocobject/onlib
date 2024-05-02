@@ -14,19 +14,19 @@ void selectAdmin();
 void selectuser();
 
 // borrow
-void mainMenu_1();
+void borrowSection();
 
 // return
-void mainMenu_2();
+void returnSection();
 
 // search
-void mainMenu_3();
+void searchSection();
 
-// search
-void mainMenu_4();
+// modify
+void modifySection();
 
 // sort
-void mainMenu_5();
+void sortSection();
 
 bool cmpName(Node *a, Node *b);
 
@@ -39,22 +39,22 @@ bool cmpQuantity(Node *a, Node *b);
 bool cmpPrice(Node *a, Node *b);
 
 // checkout
-void mainMenu_6();
+void checkoutSection();
 
 // list
-void mainMenu_7();
+void listSection();
 
 // add
-void mainMenu_8();
+void addSection();
 
 // delete
-void mainMenu_9();
+void deleteSection();
 
 // borrowd
-void mainMenu_10();
+void borrowedSection();
 
 // log
-void mainMenu_11();
+void logSection();
 
 // sign up
 void signUp();

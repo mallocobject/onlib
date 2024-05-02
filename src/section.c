@@ -75,10 +75,10 @@ void printLog(const char *func, char *name)
 // }
 
 // borrow
-void mainMenu_1()
+void borrowSection()
 {
     char name[100];
-    printf("\nEnter name: ");
+    printf("Enter name: ");
     scanf("%s", name);
 
     Node *temp = searchNode(node, name);
@@ -110,10 +110,10 @@ void mainMenu_1()
 }
 
 // return
-void mainMenu_2()
+void returnSection()
 {
     char name[100];
-    printf("\nEnter name: ");
+    printf("Enter name: ");
     scanf("%s", name);
 
     Node *temp = searchNode(node, name);
@@ -132,10 +132,10 @@ void mainMenu_2()
 }
 
 // search
-void mainMenu_3()
+void searchSection()
 {
     char word[100];
-    printf("\nEnter keywords: ");
+    printf("Enter keywords: ");
     scanf("%s", word);
     Node *cur_node = node;
     while (cur_node != NULL)
@@ -157,10 +157,10 @@ void mainMenu_3()
 }
 
 // modify
-void mainMenu_4()
+void modifySection()
 {
     char name[100];
-    printf("\nEnter name: ");
+    printf("Enter name: ");
     scanf("%s", name);
 
     Node *temp = searchNode(node, name);
@@ -237,15 +237,8 @@ bool cmpPrice(Node *a, Node *b)
 }
 
 // sort
-void mainMenu_5()
+void sortSection()
 {
-    if (participant->isAdmin == false)
-    {
-        printf("\nYou have no access.");
-        block();
-        return;
-    }
-
     bool (*cmp)(Node *, Node *);
 
     if (shell->selected == 0)
@@ -270,7 +263,7 @@ void mainMenu_5()
 }
 
 // checkout
-void mainMenu_6()
+void checkoutSection()
 {
     checkout(participant);
     printLog(__func__, "all");
@@ -278,7 +271,7 @@ void mainMenu_6()
 }
 
 // list
-void mainMenu_7()
+void listSection()
 {
     printList(node);
     printLog(__func__, "all");
@@ -286,14 +279,14 @@ void mainMenu_7()
 }
 
 // add
-void mainMenu_8()
+void addSection()
 {
     Data data;
     char name[100], category[100], author[100];
     int quantity;
     float price;
 
-    printf("\nEnter name: ");
+    printf("Enter name: ");
     scanf("%s", name);
     int len = strlen(name);
     data.name = (char *)malloc(len + 1);
@@ -338,10 +331,10 @@ void mainMenu_8()
 }
 
 // delete
-void mainMenu_9()
+void deleteSection()
 {
     char name[100];
-    printf("\nEnter name: ");
+    printf("Enter name: ");
     scanf("%s", name);
 
     getchar();
@@ -351,7 +344,7 @@ void mainMenu_9()
 }
 
 // borrowed
-void mainMenu_10()
+void borrowedSection()
 {
     listBooks(participant);
     printLog(__func__, "all");
@@ -359,7 +352,7 @@ void mainMenu_10()
 }
 
 // log
-void mainMenu_11()
+void logSection()
 {
     FILE *file = fopen("../asset/log.log", "r");
     if (file == NULL)
@@ -379,7 +372,7 @@ void mainMenu_11()
 void signUp()
 {
     char username[100], password[100];
-    printf("\nEnter username: ");
+    printf("Enter username: ");
     scanf("%s", username);
     printf("Enter password: ");
     scanf("%s", password);
@@ -387,7 +380,7 @@ void signUp()
     FILE *file = fopen("../asset/participant.txt", "r");
     if (file == NULL)
     {
-        printf("\nError opening file.");
+        printf("Error opening file.\n");
         return;
     }
     char exist_username[100], exist_password[100], exist_role[100];
@@ -407,7 +400,7 @@ void signUp()
     file = fopen("../asset/participant.txt", "a");
     if (file == NULL)
     {
-        printf("\nError opening file.");
+        printf("Error opening file.\n");
         return;
     }
 
@@ -422,7 +415,7 @@ void signUp()
 void signIn()
 {
     char username[100], password[100];
-    printf("\nEnter username: ");
+    printf("Enter username: ");
     scanf("%s", username);
     printf("Enter password: ");
     scanf("%s", password);
@@ -430,7 +423,7 @@ void signIn()
     FILE *file = fopen("../asset/participant.txt", "r");
     if (file == NULL)
     {
-        printf("\nError opening file.");
+        printf("Error opening file.\n");
         return;
     }
     char user[100], pass[100], role[100];

@@ -74,7 +74,14 @@ void show(Shell *self)
     terminal_clearScreen();
     terminal_setCursorPosition(1, 1);
     terminal_setColorAndStyle(Blue, Underline, true);
-    terminal_printString(self->title);
+    if (strstr(self->title, "Sign") != NULL)
+    {
+        terminal_printString("Online Library - ");
+        terminal_printString(self->parent->title);
+    }
+    else
+        terminal_printString(self->title);
+
     terminal_reset();
     for (int i = 0; i < getCount(self); i++)
     {

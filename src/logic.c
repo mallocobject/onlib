@@ -52,26 +52,26 @@ void setBaseShell()
     {
         if (i <= 1)
         {
-            addOption(shell_arr[i], new_shell_item("Add", mainMenu_8));
-            addOption(shell_arr[i], new_shell_item("Delete", mainMenu_9));
-            addOption(shell_arr[i], new_shell_item("Modify", mainMenu_4));
-            addOption(shell_arr[i], new_shell_item("Log", mainMenu_11));
+            addOption(shell_arr[i], new_shell_item("Add", addSection));
+            addOption(shell_arr[i], new_shell_item("Delete", deleteSection));
+            addOption(shell_arr[i], new_shell_item("Modify", modifySection));
+            addOption(shell_arr[i], new_shell_item("Log", logSection));
 
             Shell *sort = addOption(shell_arr[i], new_shell_item("Sort", NULL));
 
-            addOption(sort, new_shell_item("Name", mainMenu_5));
-            addOption(sort, new_shell_item("Category", mainMenu_5));
-            addOption(sort, new_shell_item("Author", mainMenu_5));
-            addOption(sort, new_shell_item("Quantity", mainMenu_5));
-            addOption(sort, new_shell_item("Price", mainMenu_5));
+            addOption(sort, new_shell_item("Name", sortSection));
+            addOption(sort, new_shell_item("Category", sortSection));
+            addOption(sort, new_shell_item("Author", sortSection));
+            addOption(sort, new_shell_item("Quantity", sortSection));
+            addOption(sort, new_shell_item("Price", sortSection));
         }
 
-        addOption(shell_arr[i], new_shell_item("Borrow", mainMenu_1));
-        addOption(shell_arr[i], new_shell_item("Return", mainMenu_2));
-        addOption(shell_arr[i], new_shell_item("Search", mainMenu_3));
-        addOption(shell_arr[i], new_shell_item("List", mainMenu_7));
-        addOption(shell_arr[i], new_shell_item("Borrowed", mainMenu_10));
-        addOption(shell_arr[i], new_shell_item("Checkout", mainMenu_6));
+        addOption(shell_arr[i], new_shell_item("Borrow", borrowSection));
+        addOption(shell_arr[i], new_shell_item("Return", returnSection));
+        addOption(shell_arr[i], new_shell_item("Search", searchSection));
+        addOption(shell_arr[i], new_shell_item("List", listSection));
+        addOption(shell_arr[i], new_shell_item("Borrowed", borrowedSection));
+        addOption(shell_arr[i], new_shell_item("Checkout", checkoutSection));
     }
 }
 

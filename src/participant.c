@@ -49,7 +49,7 @@ void listBooks(Participant *participant)
     for (int i = 0; i < participant->numbooks; i++)
     {
         if (i == 0)
-            printf("\n%s", participant->books[i]);
+            printf("%s", participant->books[i]);
         else
             printf(" | %s", participant->books[i]);
     }
@@ -65,7 +65,7 @@ void checkout(Participant *participant)
         free(participant->books[i]);
         participant->books[i] = NULL;
     }
-    printf("\nTotal: %.2f", participant->total);
+    printf("Total: %.2f", participant->total);
     free(participant->books);
     participant->books = NULL;
     participant->numbooks = 0;
