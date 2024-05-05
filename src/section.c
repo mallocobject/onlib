@@ -412,6 +412,11 @@ void signUp()
 // sign in
 void signIn()
 {
+    if (participant != NULL)
+    {
+        deleteParticipant(participant);
+        participant = NULL;
+    }
     char username[100], password[100];
     printf("Enter username: ");
     scanf("%s", username);
@@ -446,8 +451,6 @@ void signIn()
                 return;
             }
 
-            if (participant != NULL)
-                deleteParticipant(participant);
             participant = newParticipant(0, strcmp(role, "admin") == 0);
             getchar();
             printf("\nSuccessfully signed in.");
