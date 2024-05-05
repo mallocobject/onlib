@@ -31,25 +31,23 @@ void printLog(const char *func, char *name)
     }
     char *who = participant->isAdmin ? "Admin" : "User";
     char *does = NULL;
-    if (strcmp(func, "mainMenu_1") == 0)
+    if (strcmp(func, "borrowSection") == 0)
         does = "borrowed";
-    else if (strcmp(func, "mainMenu_2") == 0)
+    else if (strcmp(func, "returnSection") == 0)
         does = "returned";
-    else if (strcmp(func, "mainMenu_4") == 0)
+    else if (strcmp(func, "modifySection") == 0)
         does = "modified";
-    else if (strcmp(func, "mainMenu_8") == 0)
+    else if (strcmp(func, "addSection") == 0)
         does = "added";
-    else if (strcmp(func, "mainMenu_9") == 0)
+    else if (strcmp(func, "deleteSection") == 0)
         does = "deleted";
-    else if (strcmp(func, "mainMenu_6") == 0)
+    else if (strcmp(func, "checkoutSection") == 0)
         does = "checked out";
-    else if (strcmp(func, "mainMenu_10") == 0)
-        does = "viewed borrowed books";
-    else if (strcmp(func, "mainMenu_5") == 0)
+    else if (strcmp(func, "sortSection") == 0)
         does = "sorted";
-    else if (strcmp(func, "mainMenu_7") == 0)
+    else if (strcmp(func, "listSection") == 0)
         does = "listed";
-    else if (strcmp(func, "mainMenu_3") == 0)
+    else if (strcmp(func, "searchSection") == 0)
         does = "searched";
     else
         does = "unknown";

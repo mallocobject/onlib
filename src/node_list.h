@@ -18,17 +18,23 @@ typedef struct Node
     struct Node *next;
 } Node;
 
-Node *createNode(Data data); // 创建节点时传入一个 Data 结构体
+// 创建节点时传入一个 Data 结构体
+Node *createNode(Data data);
 
-Node *searchNode(Node *head, char *name); // 按关键字搜索节点
+// 按关键字搜索节点
+Node *searchNode(Node *head, char *name);
 
-void deleteNode(Node **head, char *name); // 按图书名删除节点
+// 按图书名删除节点
+void deleteNode(Node **head, char *name);
 
-void deleteAllNodes(Node **head); // 删除所有节点
+// 删除所有节点
+void deleteAllNodes(Node **head);
 
-void appendNode(Node **head, Data data); // 在链表末尾添加一个包含给定 Data 的节点
+// 在链表末尾添加一个包含给定 Data 的节点
+void appendNode(Node **head, Data data);
 
-void printList(Node *head); // 打印链表
+// 打印链表
+void printList(Node *head);
 
 // 将链表分成两半
 void splitList(Node *head, Node **front, Node **back);

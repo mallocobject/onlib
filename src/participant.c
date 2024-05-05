@@ -41,7 +41,6 @@ void returnBook(Participant *participant, char *book)
             break;
         }
     }
-    participant->numbooks--;
 }
 
 void listBooks(Participant *participant)
